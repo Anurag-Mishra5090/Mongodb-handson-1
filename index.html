@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mongo Handson 1 </title>
+</head>
+
+<body>
+    <h1>MongoDB Handon 1</h1>
+
+    <p>Create a database , give it name like ""employee"". Create a collection inside this named ""information""</p>
+    <pre>
+        test> use employee
+         switched to db employee
+         employee> db.information.insertMany([{"firstName": "John","lastName": "Doe","salary": "25000","department": "HR","lastCompany": "X","lastSalary": "10000employee> db.information.insertMany([{"firstName": "John","lastName": "Doe","salary": "25000","department": "HR","lastCompany": "X","lastSalary": "10000","overallExp": "2","contactInfo": "1234567890","yearGrad": "2016","gradStream": "CSE"},{"firstName": "Rohan","lastName": "Jame","salary": "30000","department": "Technical","lastCompany": "Y","lastSalary": "15000","overallExp": "1","contactInfo": "1234567860","yearGrad": "2015","gradStream": "CSE"}])
+         {
+         acknowledged: true,
+         insertedIds: {
+           '0': ObjectId("6419d1354044cd7f631bec68"),
+           '1': ObjectId("6419d1354044cd7f631bec69")
+         }
+}
+    </pre>
+
+    <hr>
+    <p>Query the collection ""information"" and list all the documents</p>
+    <pre>
+        employee> db.information.find()
+[
+  {
+    _id: ObjectId("6419d1354044cd7f631bec68"),
+    firstName: 'John',
+    lastName: 'Doe',
+    salary: '25000',
+    department: 'HR',
+    lastCompany: 'X',
+    lastSalary: '10000',
+    overallExp: '2',
+    contactInfo: '1234567890',
+    yearGrad: '2016',
+    gradStream: 'CSE'
+  },
+  {
+    _id: ObjectId("6419d1354044cd7f631bec69"),
+    firstName: 'Rohan',
+    lastName: 'Jame',
+    salary: '30000',
+    department: 'Technical',
+    lastCompany: 'Y',
+    lastSalary: '15000',
+    overallExp: '1',
+    contactInfo: '1234567860',
+    yearGrad: '2015',
+    gradStream: 'CSE'
+  }
+]
+    </pre>
+    <hr>
+
+
+    <p>Query the collection ""information"" and list the employees who are having salary more than 25000</p>
+    <pre>
+        employee> db.information.find({"salary":{"$gt":"20000"}})
+[
+  {
+    _id: ObjectId("6419d1354044cd7f631bec68"),
+    firstName: 'John',
+    lastName: 'Doe',
+    salary: '25000',
+    department: 'HR',
+    lastCompany: 'X',
+    lastSalary: '10000',
+    overallExp: '2',
+    contactInfo: '1234567890',
+    yearGrad: '2016',
+    gradStream: 'CSE'
+  },
+  {
+    _id: ObjectId("6419d1354044cd7f631bec69"),
+    firstName: 'Rohan',
+    lastName: 'Jame',
+    salary: '30000',
+    department: 'Technical',
+    lastCompany: 'Y',
+    lastSalary: '15000',
+    overallExp: '1',
+    contactInfo: '1234567860',
+    yearGrad: '2015',
+    gradStream: 'CSE'
+  }
+]
+    </pre>
+    <hr>
+
+    <p>Query the collection ""information"" and list the employees who are graduated after 2015 and having experience more than 1 year </p>
+    <pre>
+        employee> db.information.find({yearGrad:{$gt:"2015"},overallExp:{$gt:"1"}})
+[
+  {
+    _id: ObjectId("6419d1354044cd7f631bec68"),
+    firstName: 'John',
+    lastName: 'Doe',
+    salary: '25000',
+    department: 'HR',
+    lastCompany: 'X',
+    lastSalary: '10000',
+    overallExp: '2',
+    contactInfo: '1234567890',
+    yearGrad: '2016',
+    gradStream: 'CSE'
+  }
+]
+    </pre>
+    <hr>
+
+
+    <p>Query the collection ""information"" and update the salary of the employee whose salary is greater than 25000 to 50000.</p>
+    <pre>
+        employee> db.information.updateMany({salary:"25000"},{$set:{salary:"50000"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+employee> db.information.find()
+[
+  {
+    _id: ObjectId("6419d1354044cd7f631bec68"),
+    firstName: 'John',
+    lastName: 'Doe',
+    salary: '50000',
+    department: 'HR',
+    lastCompany: 'X',
+    lastSalary: '10000',
+    overallExp: '2',
+    contactInfo: '1234567890',
+    yearGrad: '2016',
+    gradStream: 'CSE'
+  },
+  {
+    _id: ObjectId("6419d1354044cd7f631bec69"),
+    firstName: 'Rohan',
+    lastName: 'Jame',
+    salary: '30000',
+    department: 'Technical',
+    lastCompany: 'Y',
+    lastSalary: '15000',
+    overallExp: '1',
+    contactInfo: '1234567860',
+    yearGrad: '2015',
+    gradStream: 'CSE'
+  }
+]
+    </pre>
+    <hr>
+
+    <p>Delete all the documents from ""employee"" where last company is Y"</p>
+    <pre>employee> db.information.deleteMany({lastCompany:"Y"})
+{ acknowledged: true, deletedCount: 1 }
+employee> db.information.find()
+[
+  {
+    _id: ObjectId("6419d1354044cd7f631bec68"),
+    firstName: 'John',
+    lastName: 'Doe',
+    salary: '50000',
+    department: 'HR',
+    lastCompany: 'X',
+    lastSalary: '10000',
+    overallExp: '2',
+    contactInfo: '1234567890',
+    yearGrad: '2016',
+    gradStream: 'CSE'
+  }
+]</pre>
+
+</body>
+
+</html>
